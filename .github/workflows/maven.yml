@@ -44,5 +44,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ env.CLEAN_NAME }}
-          name: EmailDatasetBrowser ${{ github.ref_name }}
-          
+          name: GithubAutoUpdater ${{ github.ref_name }}
