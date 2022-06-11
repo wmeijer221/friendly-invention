@@ -36,7 +36,6 @@ public class GithubAutoUpdater {
         return SimpleHTTPClient.get(endpoint).thenApply((response) -> {
             JsonArray jObj = JsonParser.parseString((String) response).getAsJsonArray();
 
-            LocalDate newestRelease = null;
             ArrayList<GithubUpdate> updates = new ArrayList<>();
 
             for (int i = 0; i < jObj.size(); i++) {
@@ -49,13 +48,9 @@ public class GithubAutoUpdater {
                 } catch (Exception ignored) {
                 }
 
-                // Sets latest update.
+                // Generates update information.
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
                 LocalDate releaseDate = LocalDate.parse(element.get("published_at").getAsString(), formatter);
-                if (newestRelease == null || releaseDate.compareTo(newestRelease) < 0) {
-                    newestRelease = releaseDate;
-                }
-
                 List<Pair<String, String>> assetLinks = new ArrayList<>();
                 for (JsonElement assetElement : element.get("assets").getAsJsonArray()) {
                     JsonObject asset = assetElement.getAsJsonObject();
@@ -87,8 +82,8 @@ public class GithubAutoUpdater {
         return currentVersion.compareTo(otherVersion) >= 0;
     }
 
-    public CompletableFuture<Boolean> downloadVersion(String version) {
-        // TODO Auto-generated method stub
+    public CompletableFuture<Boolean> downloadVersion(GithubUpdate update) {
+
         return null;
     }
 
